@@ -28,7 +28,8 @@ app.post('/bet', (req, res) => {
 
   Bet.create(
     {
-      details: req.body.text
+      details: req.body.text,
+      metadata: req.body
     },
     (err, data) => {
       if (err) {
@@ -52,6 +53,7 @@ app.post('/bets', (req, res) => {
       }
     });
     let response = {
+      response_type: 'in_channel',
       text: "Here's every bet",
       attachments: attachments
     };
@@ -82,7 +84,7 @@ app.post('/betkill', (req, res) => {
         'Input not a number. Please specify JUST the ID you want to cancel'
       );
   }
-  res.send('Bet completed');
+  res.send(`Bet ${id} set to COMPLETE`);
 });
 
 app.get('/isalive', (req, res) => {

@@ -12,6 +12,9 @@ let BetSchema = new mongoose.Schema({
   status: {
     type: String,
     default: 'ACTIVE'
+  },
+  metadata: {
+    type: Map
   }
 });
 
