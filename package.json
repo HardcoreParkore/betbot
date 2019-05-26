@@ -5,15 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node lib/server.js",
+    "start": "babel-node lib/server.js",
     "start:vps": "babel server.js -d lib && nodemon --exec babel-node lib/server.js",
     "build": "babel server.js -d lib"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-      "express": "^4.16.4",
-    "@babel/runtime": "^7.1.2"
+    "express": "^4.16.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
@@ -22,6 +21,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
+    "@babel/runtime": "^7.1.2",
     "husky": "^1.1.2",
     "lint-staged": "^7.3.0",
     "nodemon": "^1.18.4",
