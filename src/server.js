@@ -28,7 +28,7 @@ db.once('open', function() {
 app.post('/bet', (req, res) => {
   console.info(req);
 
-  Bet.insertOne(
+  Bet.create(
     {
       details: req.body
     },
