@@ -6,8 +6,8 @@ import bodyParser from 'body-parser';
 
 const port = process.env.PORT || 1338;
 const hookUrl = process.env.SLACK_HOOK_URL;
-const mongoUri = process.env.MONGODB_URI;
-const mongoDbName = process.env.MONGODB_NAME;
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost/test';
+//const mongoDbName = process.env.MONGODB_NAME || 'betbot';
 
 const app = express();
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -27,7 +27,7 @@ db.once('open', function() {
 });
 
 app.post('/bet', (req, res) => {
-  console.info(req.body);
+  console.info(req, res);
 
   Bet.create(
     {
@@ -49,7 +49,7 @@ app.post('/bets', (req, res) => {
   Bet.find({}, (err, bets) => {
     let data = [];
     bets.forEach(bet => {
-      data.push({ betDetails: bet.details });
+      data.push(bet.details);
     });
     res.status(200).send(data);
   });
