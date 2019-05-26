@@ -26,13 +26,11 @@ db.once('open', function() {
 });
 
 app.post('/bet', (req, res) => {
-  console.info('the request', req);
-  console.debug('-----');
   console.info('the request body', req.body);
 
   Bet.create(
     {
-      details: req.body
+      details: req.body.text
     },
     (err, data) => {
       if (err) {
