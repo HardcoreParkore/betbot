@@ -20,7 +20,8 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/runtime": "^7.1.2",
     "express": "^4.16.4",
-    "mongodb": "^3.2.6"
+    "mongodb": "^3.2.6",
+    "mongoose": "^5.5.11"
   },
   "devDependencies": {
     "husky": "^1.1.2",

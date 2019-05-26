@@ -1,10 +1,8 @@
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
-import mongodb from 'mongodb';
+import mongoose from 'mongoose';
 import assert from 'assert';
-
-const app = express();
 
 const port = process.env.PORT || 1338;
 const hookUrl = process.env.SLACK_HOOK_URL;
@@ -12,29 +10,49 @@ const mongoUri = process.env.MONGODB_URI;
 const mongoDbName = process.env.MONGODB_NAME;
 const MongoClient = mongodb.MongoClient;
 
-let db = null;
+const app = express();
 
-MongoClient.connect(mongoUri, (err, client) => {
-    assert.equal(null, err);
-    db = client.db(mongoDbName);
+let Schema = mongoose.Schema;
+
+import Bet from './model/Bet';
+
+mongoose.connect(mongoUri);
+mongoose.Promise = global.Promise // Weird
+
+let db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', function() {
+    console.log('connection open!!');
 });
 
 app.post('/bet', (req, res) => {
-    console.info(req);
+    console.info(req.body);
 
-    db.collection('bets').insertOne({
-        bet: req.body
-    }).then((result) => {
-        res.send('created a bet', req.body);
-    });
+    Bet.insertOne(
+        {
+            details: req.body
+        },
+        (err, data) => {
+            if (err) {
+                res
+                    .status(500)
+                    .send('Something went wrong submitting the bet', err, data);
+            } else {
+                res.status(200).send('Successfully created the bet!');
+            }
+        }
+    );
 });
 
 app.post('/bets', (req, res) => {
-    console.info(req);
-    let cursor = db.collection('bets').find({});
-
-    res.send(cursor);
-//    res.status(200).send('retrieve all bets');
+    Bet.find({}, (err, bets) => {
+        let data = [];
+        bets.forEach(bet => {
+            data.push({betDetails: bet.details});
+        });
+        res.status(200).send(data);
+    });
 });
 
 app.post('/betkill', (req, res) => {
