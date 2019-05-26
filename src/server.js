@@ -27,7 +27,7 @@ db.once('open', function() {
 });
 
 app.post('/bet', (req, res) => {
-  console.info(req, res);
+  console.info(req.body);
 
   Bet.create(
     {
