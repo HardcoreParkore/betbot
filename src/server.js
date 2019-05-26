@@ -12,10 +12,8 @@ const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost/test';
 //const mongoDbName = process.env.MONGODB_NAME || 'betbot';
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true })); // omg not having this wasted hours
 app.use(bodyParser.json());
-
-let Schema = mongoose.Schema;
 
 mongoose.connect(mongoUri);
 mongoose.Promise = global.Promise; // Weird
@@ -24,9 +22,13 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
   console.log('connection open!!');
 });
+const AutoIncrement = require('mongoose-sequence')(mongoose);
+Bet.plugin(AutoIncrement, { inc_field: 'id' });
 
 app.post('/bet', (req, res) => {
   console.info('the request body', req.body);
+
+  // generate the latest id
 
   Bet.create(
     {
