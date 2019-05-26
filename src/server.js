@@ -22,8 +22,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
   console.log('connection open!!');
 });
-const AutoIncrement = require('mongoose-sequence')(mongoose);
-Bet.plugin(AutoIncrement, { inc_field: 'id' });
 
 app.post('/bet', (req, res) => {
   console.info('the request body', req.body);

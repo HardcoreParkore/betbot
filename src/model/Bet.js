@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-var ObjectId = mongoose.Schema.Types.ObjectId;
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 let BetSchema = new mongoose.Schema({
   details: {
@@ -14,6 +14,8 @@ let BetSchema = new mongoose.Schema({
     default: 'ACTIVE'
   }
 });
+
+BetSchema.plugin(AutoIncrement, { inc_field: 'id' });
 
 let Bet = mongoose.model('Bet', BetSchema);
 
