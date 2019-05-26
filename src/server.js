@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import mongoose from 'mongoose';
-import assert from 'assert';
+import bodyParser from 'body-parser';
 
 const port = process.env.PORT || 1338;
 const hookUrl = process.env.SLACK_HOOK_URL;
@@ -10,6 +10,7 @@ const mongoUri = process.env.MONGODB_URI;
 const mongoDbName = process.env.MONGODB_NAME;
 
 const app = express();
+app.use(bodyParser.json({ limit: '50mb' }));
 
 let Schema = mongoose.Schema;
 
@@ -26,7 +27,7 @@ db.once('open', function() {
 });
 
 app.post('/bet', (req, res) => {
-  console.info(req);
+  console.info(req.body);
 
   Bet.create(
     {
