@@ -4,30 +4,31 @@ import fs from 'fs';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 
+import Bet from './model/Bet';
+
 const port = process.env.PORT || 1338;
 const hookUrl = process.env.SLACK_HOOK_URL;
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost/test';
 //const mongoDbName = process.env.MONGODB_NAME || 'betbot';
 
 const app = express();
-app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 let Schema = mongoose.Schema;
 
-import Bet from './model/Bet';
-
 mongoose.connect(mongoUri);
 mongoose.Promise = global.Promise; // Weird
-
 let db = mongoose.connection;
-
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
   console.log('connection open!!');
 });
 
 app.post('/bet', (req, res) => {
-  console.info(req.body);
+  console.info('the request', req);
+  console.debug('-----');
+  console.info('the request body', req.body);
 
   Bet.create(
     {
@@ -49,7 +50,9 @@ app.post('/bets', (req, res) => {
   Bet.find({}, (err, bets) => {
     let data = [];
     bets.forEach(bet => {
-      data.push(bet.details);
+      if (bet.details) {
+        data.push(bet.details);
+      }
     });
     res.status(200).send(data);
   });
