@@ -10,6 +10,10 @@ app.post('/bet', (req, res) => {
     res.send('hello parker');
 });
 
+app.get('/isalive', (req, res) => {
+    res.send(true);
+});
+
 app.listen(port, () => {
     console.log('App listening on port ' + port + '.');
 });
