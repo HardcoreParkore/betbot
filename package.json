@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel server.js -d lib && nodemon --exec babel-node lib/server.js",
+    "start": "npm install && babel server.js -d lib && node lib/server.js",
+    "start:vps": "babel server.js -d lib && nodemon --exec babel-node lib/server.js",
     "build": "babel server.js -d lib"
   },
   "author": "",
