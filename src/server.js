@@ -26,8 +26,6 @@ db.once('open', function() {
 app.post('/bet', (req, res) => {
   console.info('the request body', req.body);
 
-  // generate the latest id
-
   Bet.create(
     {
       details: req.body.text
@@ -49,12 +47,12 @@ app.post('/bets', (req, res) => {
     let attachments = [];
     bets.forEach(bet => {
       if (bet.details) {
-        let betDetails = bet.id + ' ' + bet.details;
+        let betDetails = bet.id + ': ' + bet.details + '. ' + bet.status;
         attachments.push({ text: betDetails });
       }
     });
     let response = {
-      text: "Here's every",
+      text: "Here's every bet",
       attachments: attachments
     };
     res.status(200).send(response);
@@ -62,8 +60,29 @@ app.post('/bets', (req, res) => {
 });
 
 app.post('/betkill', (req, res) => {
-  console.info(req);
-  res.send('complete/finish a bet');
+  let id = parseInt(req.body.text);
+  if (!isNaN(parseInt(id))) {
+    Bet.updateOne(
+      { id: id },
+      {
+        $set: {
+          status: 'COMPLETE'
+        }
+      },
+      (err, bet) => {
+        if (err) {
+          res.status(500).send("I don't think that's a valid ID", err);
+        }
+      }
+    );
+  } else {
+    res
+      .status(500)
+      .send(
+        'Input not a number. Please specify JUST the ID you want to cancel'
+      );
+  }
+  res.send('Bet completed');
 });
 
 app.get('/isalive', (req, res) => {
