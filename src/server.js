@@ -48,13 +48,18 @@ app.post('/bet', (req, res) => {
 
 app.post('/bets', (req, res) => {
   Bet.find({}, (err, bets) => {
-    let data = [];
+    let attachments = [];
     bets.forEach(bet => {
       if (bet.details) {
-        data.push(bet.details);
+        let betDetails = bet.id + ' ' + bet.details;
+        attachments.push({ text: betDetails });
       }
     });
-    res.status(200).send(data);
+    let response = {
+      text: "Here's every",
+      attachments: attachments
+    };
+    res.status(200).send(response);
   });
 });
 
