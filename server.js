@@ -4,7 +4,7 @@ import fs from 'fs';
 
 const app = express();
 
-const port = 1338;
+const port = process.env.PORT || 1338;
 
 app.post('/bet', (req, res) => {
     res.send('hello parker');
