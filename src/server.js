@@ -37,7 +37,12 @@ app.post('/bet', (req, res) => {
           .status(500)
           .send('Something went wrong submitting the bet', err, data);
       } else {
-        res.status(200).send('Successfully created the bet!');
+        let response = {
+          response_type: 'in_channel',
+          text: 'A BET HAS BEEN PLACED',
+          attachments: req.body.text
+        };
+        res.status(200).send(response);
       }
     }
   );
@@ -48,7 +53,7 @@ app.post('/bets', (req, res) => {
     let attachments = [];
     bets.forEach(bet => {
       if (bet.details) {
-        let betDetails = bet.id + ' (' + bet.status + '): ' + bet.details;
+        let betDetails = '[' + bet.id + '](' + bet.status + '): ' + bet.details;
         attachments.push({ text: betDetails });
       }
     });
