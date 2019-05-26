@@ -47,7 +47,7 @@ app.post('/bets', (req, res) => {
     let attachments = [];
     bets.forEach(bet => {
       if (bet.details) {
-        let betDetails = bet.id + ': ' + bet.details + '. ' + bet.status;
+        let betDetails = bet.id + ' (' + bet.status + '): ' + bet.details;
         attachments.push({ text: betDetails });
       }
     });
