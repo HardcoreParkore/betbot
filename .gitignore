@@ -2,5 +2,5 @@
 .#*
 node_modules*
 .DS_store
-./lib/*
+lib*
 package-lock.json
