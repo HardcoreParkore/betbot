@@ -25,20 +25,21 @@ app.post('/bet', (req, res) => {
     db.collection('bets').insertOne({
         bet: req.body
     }).then((result) => {
-        res.status(200).send('created a bet', req.body);
+        res.send('created a bet', req.body);
     });
 });
 
 app.post('/bets', (req, res) => {
     console.info(req);
     let cursor = db.collection('bets').find({});
-    res.status.send(cursor);
+
+    res.send(cursor);
 //    res.status(200).send('retrieve all bets');
 });
 
 app.post('/betkill', (req, res) => {
     console.info(req);
-    res.status(200).send('complete/finish a bet');
+    res.send('complete/finish a bet');
 });
 
 app.get('/isalive', (req, res) => {
