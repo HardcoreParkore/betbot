@@ -49,7 +49,7 @@ app.post('/bet', (req, res) => {
 });
 
 app.post('/bets', (req, res) => {
-  Bet.find({}, (err, bets) => {
+  Bet.find({ status: 'ACTIVE' }, (err, bets) => {
     let attachments = [];
     bets.forEach(bet => {
       if (bet.details) {
@@ -59,7 +59,7 @@ app.post('/bets', (req, res) => {
     });
     let response = {
       response_type: 'in_channel',
-      text: "Here's every bet",
+      text: "Here's every ACTIVE bet",
       attachments: attachments
     };
     res.status(200).send(response);
@@ -94,6 +94,8 @@ app.post('/betkill', (req, res) => {
 
 app.post('/test', (req, res) => {
   console.log(req.body);
+
+  res.send('success');
 });
 
 app.get('/isalive', (req, res) => {
