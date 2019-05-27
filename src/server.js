@@ -92,7 +92,7 @@ app.post('/betkill', (req, res) => {
   res.send(`Bet ${id} set to COMPLETE`);
 });
 
-app.post('test', (req, res) => {
+app.post('/test', (req, res) => {
   console.log(req.body);
 });
 
