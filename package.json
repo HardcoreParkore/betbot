@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "babel-node lib/server.js",
+    "start:local": "babel src -d lib && babel-node lib/server.js",
     "start:vps": "babel server.js -d lib && nodemon --exec babel-node lib/server.js",
     "build": "babel src -d lib"
   },

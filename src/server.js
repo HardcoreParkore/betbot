@@ -92,6 +92,10 @@ app.post('/betkill', (req, res) => {
   res.send(`Bet ${id} set to COMPLETE`);
 });
 
+app.post('info', (req, res) => {
+  console.log(req.body);
+});
+
 app.get('/isalive', (req, res) => {
   res.send(true);
 });
