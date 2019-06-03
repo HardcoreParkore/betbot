@@ -24,7 +24,7 @@ db.once('open', function() {
 });
 
 app.post('/bet', (req, res) => {
-  console.info('the request body', req.body);
+  console.info('/bet', req.body);
 
   Bet.create(
     {
@@ -49,6 +49,7 @@ app.post('/bet', (req, res) => {
 });
 
 app.post('/bets', (req, res) => {
+  console.info('/bets', req.body);
   Bet.find({ status: 'ACTIVE' }, (err, bets) => {
     let attachments = [];
     bets.forEach(bet => {
@@ -67,6 +68,8 @@ app.post('/bets', (req, res) => {
 });
 
 app.post('/betkill', (req, res) => {
+  console.info('/betkill', req.body);
+
   let id = parseInt(req.body.text);
   if (!isNaN(parseInt(id))) {
     Bet.updateOne(
@@ -93,12 +96,13 @@ app.post('/betkill', (req, res) => {
 });
 
 app.post('/test', (req, res) => {
-  console.log(req.body);
+  console.info('/test', req.body);
 
   res.send('success');
 });
 
 app.get('/isalive', (req, res) => {
+  console.info('/isalive', req.body);
   res.send(true);
 });
 
