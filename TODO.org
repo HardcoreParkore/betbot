@@ -1,0 +1,2 @@
+* TODO Create a command to list all commands (basically api documentation)
+* TODO Set up /bet and /rulePropose to use current slack display name rather than user_name

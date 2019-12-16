@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 
 import Bet from './model/Bet';
+import Rule from './model/Rule';
 
 const port = process.env.PORT || 1338;
 const hookUrl = process.env.SLACK_HOOK_URL;
@@ -23,12 +24,27 @@ db.once('open', function() {
   console.log('connection open!!');
 });
 
+/*
+  /bet { token: 'token',
+  Dec 15 17:14:38 betbot-10guys1cup app[web] info   team_id: 'T7LFGPV08',
+  Dec 15 17:14:38 betbot-10guys1cup app[web] info   team_domain: '10-guys-1-cup',
+  Dec 15 17:14:38 betbot-10guys1cup app[web] info   channel_id: 'D7N213P1C',
+  Dec 15 17:14:38 betbot-10guys1cup app[web] info   channel_name: 'directmessage',
+  Dec 15 17:14:38 betbot-10guys1cup app[web] info   user_id: 'U7M6ZTLRJ',
+  Dec 15 17:14:38 betbot-10guys1cup app[web] info   user_name: 'enragedboar',
+  Dec 15 17:14:38 betbot-10guys1cup app[web] info   command: '/bet',
+  Dec 15 17:14:38 betbot-10guys1cup app[web] info   text: 'test bet',
+  Dec 15 17:14:38 betbot-10guys1cup app[web] info   response_url:
+  Dec 15 17:14:38 betbot-10guys1cup app[web] info    'url',
+  Dec 15 17:14:38 betbot-10guys1cup app[web] info   trigger_id: 'id' }
+*/
+
 app.post('/bet', (req, res) => {
   console.info('/bet', req.body);
 
   Bet.create(
     {
-      details: req.body.text,
+      details: req.body.user_name + ': ' + req.body.text,
       metadata: req.body
     },
     (err, data) => {
@@ -39,8 +55,7 @@ app.post('/bet', (req, res) => {
       } else {
         let response = {
           response_type: 'in_channel',
-          text: 'A BET HAS BEEN PLACED',
-          attachments: req.body.text
+          text: 'BET PLACED: ' + req.body.text
         };
         res.status(200).send(response);
       }
@@ -59,7 +74,6 @@ app.post('/bets', (req, res) => {
       }
     });
     let response = {
-      response_type: 'in_channel',
       text: "Here's every ACTIVE bet",
       attachments: attachments
     };
@@ -92,7 +106,37 @@ app.post('/betkill', (req, res) => {
         'Input not a number. Please specify JUST the ID you want to cancel'
       );
   }
+  // TODO Add the text of the bet that was created
+  let response = {
+    response_type: 'in_channel',
+    text: 'Bet ${id} has been set to complete by ' + req.body.user_name,
+    attachments: req.body.text
+  };
   res.send(`Bet ${id} set to COMPLETE`);
+});
+
+app.post('/rulepropose', (req, res) => {
+  console.info('/rulepropose', req.body);
+
+  Rule.create(
+    {
+      details: 'From:' + req.body.user_name + ' - ' + req.body.text,
+      metadata: req.body
+    },
+    (err, data) => {
+      if (err) {
+        res
+          .status(500)
+          .send('Something went wrong submitting the rule', err, data);
+      } else {
+        let response = {
+          response_type: 'in_channel',
+          text: 'A rule has been created'
+        };
+        res.status(200).send(response);
+      }
+    }
+  );
 });
 
 app.post('/test', (req, res) => {
