@@ -121,7 +121,8 @@ app.post('/rulepropose', (req, res) => {
   Rule.create(
     {
       details: 'From:' + req.body.user_name + ' - ' + req.body.text,
-      metadata: req.body
+      metadata: req.body,
+      sender: req.body.user_name
     },
     (err, data) => {
       if (err) {
@@ -137,6 +138,24 @@ app.post('/rulepropose', (req, res) => {
       }
     }
   );
+});
+
+app.post('/rules', (req, res) => {
+  console.info('/rules', req.body);
+  Rule.find({}, (err, rules) => {
+    let attachments = [];
+    rules.forEach(rule => {
+      if (rule.details) {
+        let ruleDetails = rule.sender + ': ' + rule.details;
+        attachments.push({ text: ruleDetails });
+      }
+    });
+    let response = {
+      text: 'All proposed rule changes:',
+      attachments: attachments
+    };
+    res.status(200).send(response);
+  });
 });
 
 app.post('/test', (req, res) => {
