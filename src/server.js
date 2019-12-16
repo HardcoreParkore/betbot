@@ -46,8 +46,8 @@ app.post('/bet', (req, res) => {
     {
       details: req.body.user_name + ': ' + req.body.text,
       metadata: req.body,
-      sender_user_name: req.body.user_name,
-      sender_user_id: req.body.user_id
+      senderUserName: req.body.user_name,
+      senderUserId: req.body.user_id
     },
     (err, data) => {
       if (err) {
@@ -86,8 +86,16 @@ app.post('/bets', (req, res) => {
 
 app.post('/betkill', (req, res) => {
   console.info('/betkill', req.body);
+  // TODO Add the text of the bet that was created
 
   let id = parseInt(req.body.text);
+
+  let response = {
+    response_type: 'in_channel',
+    text: 'Bet ' + id + ' has been set to complete by ' + req.body.user_name,
+    attachments: req.body.text
+  };
+
   if (!isNaN(parseInt(id))) {
     Bet.updateOne(
       { id: id },
@@ -109,12 +117,6 @@ app.post('/betkill', (req, res) => {
         'Input not a number. Please specify JUST the ID you want to cancel'
       );
   }
-  // TODO Add the text of the bet that was created
-  let response = {
-    response_type: 'in_channel',
-    text: 'Bet ${id} has been set to complete by ' + req.body.user_name,
-    attachments: req.body.text
-  };
   res.status(200).send(response);
 });
 
@@ -125,8 +127,8 @@ app.post('/rulepropose', (req, res) => {
     {
       details: req.body.text,
       metadata: req.body,
-      sender_user_name: req.body.user_name,
-      sender_user_id: req.body.user_id
+      senderUserName: req.body.user_name,
+      senderUserId: req.body.user_id
     },
     (err, data) => {
       if (err) {
@@ -150,7 +152,7 @@ app.post('/rules', (req, res) => {
     let attachments = [];
     rules.forEach(rule => {
       if (rule.details) {
-        let ruleDetails = rule.sender_user_name + ': ' + rule.details;
+        let ruleDetails = rule.senderUserName + ': ' + rule.details;
         attachments.push({ text: ruleDetails });
       }
     });

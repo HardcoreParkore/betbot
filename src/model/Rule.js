@@ -13,9 +13,11 @@ let RuleSchema = new mongoose.Schema({
     type: String,
     default: 'ACTIVE'
   },
-  sender: {
-    type: String,
-    default: 'Unknown'
+  senderUserName: {
+    type: String
+  },
+  senderUserId: {
+    type: String
   },
   metadata: {
     type: Map
