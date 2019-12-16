@@ -70,6 +70,9 @@ app.post('/bets', (req, res) => {
   Bet.find({ status: 'ACTIVE' }, (err, bets) => {
     let attachments = [];
     bets.forEach(bet => {
+      console.debug(bet);
+      console.debug(bet.metadata);
+      console.debug(bet.metadata.user_name);
       if (bet.details) {
         let betDetails =
           'From: ' +
