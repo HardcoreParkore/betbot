@@ -22,7 +22,7 @@ let RuleSchema = new mongoose.Schema({
   }
 });
 
-RuleSchema.plugin(AutoIncrement, { inc_field: 'id' });
+RuleSchema.plugin(AutoIncrement, { inc_field: 'rule_id' });
 
 let Rule = mongoose.model('Rule', RuleSchema);
 
