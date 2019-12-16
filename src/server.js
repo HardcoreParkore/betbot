@@ -45,7 +45,9 @@ app.post('/bet', (req, res) => {
   Bet.create(
     {
       details: req.body.user_name + ': ' + req.body.text,
-      metadata: req.body
+      metadata: req.body,
+      sender_user_name: req.body.user_name,
+      sender_user_id: req.body.user_id
     },
     (err, data) => {
       if (err) {
@@ -75,6 +77,7 @@ app.post('/bets', (req, res) => {
     });
     let response = {
       text: "Here's every ACTIVE bet",
+      response_type: 'in_channel',
       attachments: attachments
     };
     res.status(200).send(response);
@@ -120,9 +123,10 @@ app.post('/rulepropose', (req, res) => {
 
   Rule.create(
     {
-      details: 'From:' + req.body.user_name + ' - ' + req.body.text,
+      details: req.body.text,
       metadata: req.body,
-      sender: req.body.user_name
+      sender_user_name: req.body.user_name,
+      sender_user_id: req.body.user_id
     },
     (err, data) => {
       if (err) {
@@ -146,12 +150,13 @@ app.post('/rules', (req, res) => {
     let attachments = [];
     rules.forEach(rule => {
       if (rule.details) {
-        let ruleDetails = rule.sender + ': ' + rule.details;
+        let ruleDetails = rule.sender_user_name + ': ' + rule.details;
         attachments.push({ text: ruleDetails });
       }
     });
     let response = {
       text: 'All proposed rule changes:',
+      response_type: 'in_channel',
       attachments: attachments
     };
     res.status(200).send(response);
