@@ -13,6 +13,14 @@ let BetSchema = new mongoose.Schema({
     type: String,
     default: 'ACTIVE'
   },
+  sender_user_name: {
+    type: String,
+    default: 'Unknown'
+  },
+  sender_user_id: {
+    type: String,
+    default: 'Unknown'
+  },
   metadata: {
     type: Map
   }
