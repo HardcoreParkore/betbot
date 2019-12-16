@@ -115,7 +115,7 @@ app.post('/betkill', (req, res) => {
     text: 'Bet ${id} has been set to complete by ' + req.body.user_name,
     attachments: req.body.text
   };
-  res.send(`Bet ${id} set to COMPLETE`);
+  res.status(200).send(response);
 });
 
 app.post('/rulepropose', (req, res) => {
