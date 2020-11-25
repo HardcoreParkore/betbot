@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 let RuleSchema = new mongoose.Schema({
-  details: {
+  betails: {
     type: String,
     required: true
   },

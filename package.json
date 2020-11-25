@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,8 @@
     "start": "babel-node lib/server.js",
     "start:local": "babel src -d lib && babel-node lib/server.js",
     "start:vps": "babel server.js -d lib && nodemon --exec babel-node lib/server.js",
-    "build": "babel src -d lib"
+    "build": "babel src -d lib",
+    "semantic-release": "semantic-release"
   },
   "author": "",
   "license": "ISC",
@@ -30,7 +31,8 @@
     "husky": "^1.1.2",
     "lint-staged": "^7.3.0",
     "nodemon": "^1.18.4",
-    "prettier": "^1.14.3"
+    "prettier": "^1.14.3",
+    "semantic-release": "^15.13.31"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [
@@ -42,5 +44,9 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HardcoreParkore/betbot.git"
   }
 }

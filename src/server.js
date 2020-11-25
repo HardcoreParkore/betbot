@@ -1,6 +1,4 @@
 import express from 'express';
-import path from 'path';
-import fs from 'fs';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 
@@ -12,6 +10,7 @@ const hookUrl = process.env.SLACK_HOOK_URL;
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost/test';
 //const mongoDbName = process.env.MONGODB_NAME || 'betbot';
 
+console.log('mongoURI is', mongoUri);
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true })); // omg not having this wasted hours
 app.use(bodyParser.json());
@@ -180,6 +179,10 @@ app.post('/test', (req, res) => {
 });
 
 app.get('/isalive', (req, res) => {
+  console.info('/isalive', req.body);
+  res.send(true);
+});
+app.post('/isalive', (req, res) => {
   console.info('/isalive', req.body);
   res.send(true);
 });
